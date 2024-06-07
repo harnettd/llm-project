@@ -36,10 +36,15 @@ Having settled on the above hyperparameter values, I then obtained my final mode
 
 ## Results
 
-To generate a sentiment-analysis tool, I tried two approaches. The first approach was to apply a random forest classifier to text data that had been vectorized using the TF-IDF algorithm. On test data, this approach yielded an F1-score of 0.80. The second approach was to tune a previously trained LLM on the movie-review test data. On test data, this approach yielded an F1-score of 0.93, a major improvement over the first appraoch.
+To generate a sentiment-analysis tool, I tried two approaches. The first approach was to apply a random forest classifier to text data that had been vectorized using the TF-IDF algorithm. On test data, this approach yielded an F1-score of 0.80. The second approach was to tune a previously trained LLM on the movie-review test data. On test data, this approach yielded an F1-score of 0.92, a major improvement over the first appraoch.
 
 To be fair, however, the first approach was implemented on a PC and used a training set consisting of 7,500 samples and a 750 feature-vocabulary. The second approach was implemented on Google colab. The model was trained on 12,500 samples with no explicit restrictions on vocabulary length. As a future goal, I would implement the first approach on Google colab so that the two models could be compared directly, having been trained with the same computing resources. 
 
 ## Important Links
 
 - [IMDB large movie-review dataset](https://huggingface.co/datasets/stanfordnlp/imdb)
+- [movie-review-classifier at Hugging Face](https://huggingface.co/derek-harnett/movie-review-classifier)
+
+## Screenshot
+
+![movie-review-classifier at Hugging Face screenshot](./images/hugging-face-screenshot.png)
