@@ -1,11 +1,12 @@
 """
 Tokenize documents, remove English stop words, and stem the results.
 """
-import pickle
+from nltk import PorterStemmer
 import pandas as pd
 
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
+ps = PorterStemmer()
 
 def load(dataset: str) -> dict:
     """
@@ -45,12 +46,16 @@ def remove_stop_words(words: list) -> list:
 
 
 def stem(words: str) -> str:
-    """Stems each word of tokens."""
+    """Stem each word of tokens."""
+    for (idx, word) in enumerate(words):
+        stemmed_word = ps.stem(word)
+        if stemmed_word != word:
+            words[idx] = stemmed_word
     return words
 
 
 def to_words_text(docs: dict) -> dict:
-    """Parition to words every entry of a dict of docs."""
+    """Parition into words every entry of a dict of docs."""
     docs_copy = docs.copy()
     docs_copy['text'] = [to_words(text) for text in docs_copy['text']]
     return docs_copy
@@ -68,35 +73,6 @@ def stem_text(docs: dict) -> dict:
     docs_copy = docs.copy()
     docs_copy['text'] = [stem(text) for text in docs_copy['text']]
     return docs_copy
-
-
-# def apply_to_column_elements(f, x: dict) -> dict:
-#     for label in x:
-#         column = x[label]
-#         x[label] = [f(element) for element in column]
-#     return x
-
-
-# def main():
-
-#     dataset = 'yelp_review_full'
-#     docs_all = load(dataset)
-
-#     # strings needed to specify output filenames
-#     dir = 'data'
-#     tag_suffix = 'tokenized.pkl'
-
-#     df_tokenized = {}
-#     for (key, docs) in docs_all.items():
-#         new_dict = docs
-#         new_dict = to_words_text(new_dict)
-#         new_dict = remove_stop_words_text(new_dict)
-#         new_dict = stem_text(new_dict)        
-#         df_tokenized[key] = new_dict
-        
-#         filename = f'{dir}/{dataset}-{key}-{tag_suffix}'
-#         with open(filename, 'wb') as f:
-#             pickle.dump(df_tokenized[key], f)     
 
 
 if __name__ == '__main__':
