@@ -16,8 +16,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification,\
 def main():
     # Load the pretrained tokenizer and model.
     dir = 'movie-review-classifier'
-    tokenizer = AutoTokenizer.from_pretrained(f'{dir}/tokenizer') 
-    model = AutoModelForSequenceClassification.from_pretrained(f'{dir}/model')
+    tokenizer = AutoTokenizer.from_pretrained(f'/home/derek/Documents/Learning/Lighthouse-Labs/Data-Science/projects/llm-project/movie-review-classifier/tokenizer') 
+    model = AutoModelForSequenceClassification.from_pretrained(f'/home/derek/Documents/Learning/Lighthouse-Labs/Data-Science/projects/llm-project/movie-review-classifier/model')
     pipe = TextClassificationPipeline(
         model=model,
         tokenizer=tokenizer,
