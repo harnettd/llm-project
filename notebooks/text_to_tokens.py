@@ -27,10 +27,12 @@ def load(dataset: str) -> dict:
 
 
 def to_words(text: str) -> list:
+    """Split text into words on whitespace."""
     try:
         split_text = text.split()
     except AttributeError:
         return text
+    
     return text.split()
 
 
@@ -48,7 +50,7 @@ def stem(words: str) -> str:
 
 
 def to_words_text(docs: dict) -> dict:
-    """Parition to words every entry of a set of docs."""
+    """Parition to words every entry of a dict of docs."""
     docs_copy = docs.copy()
     docs_copy['text'] = [to_words(text) for text in docs_copy['text']]
     return docs_copy
