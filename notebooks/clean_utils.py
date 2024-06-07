@@ -1,26 +1,24 @@
 """
-Utilities for preprocessing text data.
+Utilities for cleaning text data.
 """
 import re
 from string import whitespace
 
 
 def collapse_whitespace(text: str) -> str:
-    """Collapse all whitespace sequences to a single space."""
+    """
+    Collapse all whitespace sequences to a single space.
+    
+    Usage examples:
+    >>> collapse_whitespace(' \n \t   \n\t   ')
+    ' '
+    """
     pattern = '[' + whitespace + ']+'
     return re.sub(pattern, ' ', text)
 
 
 def remove_punctuation(text: str) -> str:
-    """Remove the punctuation from text.
-
-    There are definitely some problems with removing all punctuation.
-    For example, $1,234.61 -> 123461.
-    Also, 
-        @ helps identify email addresses
-        :// helps identify URLs
-
-    Also, some of the single and double quotes aren't being removed.
+    """Remove all punctuation from text.
 
     :param text: Text to be stripped of punctuation
     :type text: str
@@ -37,8 +35,7 @@ def remove_punctuation(text: str) -> str:
 
 
 def clean(text: str) -> str:
-    """Clean text by applying the set of functions defined above."""
-    
+    """In text, lower-case, collapse whitespace, and strip punctuation. """
     # Initialize return value.
     cleaned_text = text
 
