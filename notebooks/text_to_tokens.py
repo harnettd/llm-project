@@ -9,82 +9,21 @@ from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
 def load(dataset: str) -> dict:
     """
-    Load cleaned train, validate, and test dictionaries.
+    Load cleaned train and test CSV files to DataFrames.
 
-    :return: train, validate, and test dictionaries
-    :rtype: dict
+    :return: train and test dictionaries
+    :rtype: dict[dict, dict]
     """
-    dir = 'data'
-    # dataset = 'imdb'
+    dir = '../data'
     tag_suffix = 'cleaned.csv'
 
     df_train = pd.read_csv(f'{dir}/{dataset}-train-{tag_suffix}')
     df_test = pd.read_csv(f'{dir}/{dataset}-test-{tag_suffix}')
-    # df_unsupervised = pd.read_csv(f'{dir}/{dataset}-unsupervised-{tag_suffix}')
 
     return {
         'train': df_train.to_dict(orient='list'), 
         'test': df_test.to_dict(orient='list'), 
-        # 'unsupervised': df_unsupervised.to_dict(orient='list')
     }
-
-
-# def load_yelp() -> dict:
-#     """
-#     Load cleaned train, validate, and test dictionaries.
-
-#     :return: train, validate, and test dictionaries
-#     :rtype: dict
-#     """
-#     dirname = 'data/'
-#     tag_suffix = '-cleaned.csv'
-
-#     df_train = pd.read_csv(dirname + 'train' + tag_suffix)
-#     df_validate = pd.read_csv(dirname + 'validate' + tag_suffix)
-#     df_test = pd.read_csv(dirname + 'test' + tag_suffix)
-
-#     return {
-#         'train': df_train.to_dict(orient='list'), 
-#         'validate': df_validate.to_dict(orient='list'), 
-#         'test': df_test.to_dict(orient='list')
-#     }
-
-
-# def load_news() -> dict:
-#     """
-#     Load cleaned train, validate, and test dictionaries.
-
-#     :return: train, validate, and test dictionaries
-#     :rtype: dict
-#     """
-#     dirname = 'data/'
-#     tag_suffix = '-cleaned.csv'
-
-#     df_train = pd.read_csv(dirname + 'train' + tag_suffix)
-#     df_validate = pd.read_csv(dirname + 'validate' + tag_suffix)
-#     df_test = pd.read_csv(dirname + 'test' + tag_suffix)
-
-#     return {
-#         'train': df_train.to_dict(orient='list'), 
-#         'validate': df_validate.to_dict(orient='list'), 
-#         'test': df_test.to_dict(orient='list')
-#     }
-
-
-# def load(dataset_name: str)-> dict:
-#     """
-#     Load a dataset by name.
-#     """
-#     if dataset_name == 'imdb':
-#         return load_imdb()
-    
-#     if dataset_name == 'yelp_review_full':
-#         return load_yelp()
-    
-#     if dataset_name == 'SetFit/20_newsgroups':
-#         return load_news()
-
-#     raise FileNotFoundError
 
 
 def to_words(text: str) -> list:
@@ -136,27 +75,27 @@ def stem_text(docs: dict) -> dict:
 #     return x
 
 
-def main():
+# def main():
 
-    dataset = 'yelp_review_full'
-    docs_all = load(dataset)
+#     dataset = 'yelp_review_full'
+#     docs_all = load(dataset)
 
-    # strings needed to specify output filenames
-    dir = 'data'
-    tag_suffix = 'tokenized.pkl'
+#     # strings needed to specify output filenames
+#     dir = 'data'
+#     tag_suffix = 'tokenized.pkl'
 
-    df_tokenized = {}
-    for (key, docs) in docs_all.items():
-        new_dict = docs
-        new_dict = to_words_text(new_dict)
-        new_dict = remove_stop_words_text(new_dict)
-        new_dict = stem_text(new_dict)        
-        df_tokenized[key] = new_dict
+#     df_tokenized = {}
+#     for (key, docs) in docs_all.items():
+#         new_dict = docs
+#         new_dict = to_words_text(new_dict)
+#         new_dict = remove_stop_words_text(new_dict)
+#         new_dict = stem_text(new_dict)        
+#         df_tokenized[key] = new_dict
         
-        filename = f'{dir}/{dataset}-{key}-{tag_suffix}'
-        with open(filename, 'wb') as f:
-            pickle.dump(df_tokenized[key], f)     
+#         filename = f'{dir}/{dataset}-{key}-{tag_suffix}'
+#         with open(filename, 'wb') as f:
+#             pickle.dump(df_tokenized[key], f)     
 
 
 if __name__ == '__main__':
-    main()
+    print(__doc__)
