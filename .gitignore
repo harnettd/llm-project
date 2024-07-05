@@ -2,7 +2,6 @@ scratch*
 
 models/
 movie-review-classifier/
-src/
 scratch/
 data/
 .ipynb_checkpoints/
