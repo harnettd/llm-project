@@ -1,0 +1,16 @@
+accelerate
+datasets
+evaluate
+flask
+flask-restful
+gensim
+ipywidgets
+matplotlib
+nltk
+numpy
+pandas
+pytorch
+scikit-learn
+scipy
+transformers
+ipykernel
