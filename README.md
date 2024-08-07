@@ -1,44 +1,22 @@
-# LLM Project
+# Sentiment Analysis of Movie Reviews
 
-## Project Task
-
-The purpose of this project was to train a classifier to predict whether a particular movie review is positive (*i.e.,* thumbs-up) or negative (*i.e.,* thumbs-down). The classifier was trained and tested on a labelled dataset of movie reviews from [IMDB](https://www.imdb.com/). Two approaches were tried. The first approach was to tokenize and vectorize the reviews using the TF-IDF algorithm. The resulting vectorized movie reviews and corresponding labels were then used to train a random forest classifier. The second approach was to start from a pre-trained LLM which was then fine-tuned using the movie-review training set. Unsurprisingly, the results of the second approach were much better than the first. The final model of the second approach was delpoyed both locally through a server set up using Flask, and on [Hugging Face](https://huggingface.co/).
+In this project, I trained various classifiers to predict whether a particular movie review is positive (*i.e.,* thumbs-up) or negative (*i.e.,* thumbs-down). All classifier models used were trained and tested on a labelled dataset of movie reviews from [IMDB](https://www.imdb.com/). Two approaches were tried. The first approach (see the first notebook) used the TF-IDF algorithm in conjunction with several classifiers from scikit-learn. The second approach (see the third notebook) used the transformers library and a pre-trained LLM which was then fine-tuned using the movie-review train set. The results of the second approach were significantly better than the first. The first approach yielded a test F1-score of 0.875 whereas the second approach yielded a test F1-score of 0.933. The best model from the first approach was deployed using Flask (see the second notebook). The fine-tuned model of the second approach was delpoyed on [Hugging Face](https://huggingface.co/derek-harnett/movie-review-classifier#movie-review-classifier).
 
 ## Dataset
 
-As noted above, in this project, I used the [IMDB large movie-review dataset](https://huggingface.co/datasets/stanfordnlp/imdb) of highly polarized movie reviews. The dataset contained labelled training and test data (as well as unlabelled data that I didn't use for this project.) Each dataset had two columns: 'text' and 'label'. The 'text' columns consisted of natural language text reviews. The 'label' columns contained 1's and 0's: 1 for a positive review and 0 for a negative review. Both training and test datasets contained 25,000 samples and no null entries. Also, both training and test datasets were perfectly balanced, each containing 12,500 1's and 12,500 0's.
+As noted above, in this project, I used the [IMDB large movie-review dataset](https://huggingface.co/datasets/stanfordnlp/imdb) of highly polarized movie reviews. The dataset contained labelled train and test data as well as unlabelled data. Each subset of the dataset had two columns: 'text' and 'label'. The 'text' columns consisted of natural language text reviews. The 'label' columns contained 1's and 0's: 1 for a positive review and 0 for a negative review. Both train and test datasets contained 25k samples. (The unlabelled set contained 50k samples.) Also, both train and test datasets were perfectly balanced, each containing 12,500 1's and 12,500 0's.
 
 ## Pre-trained Model
 
-For the pre-trained model, I used `distilBERT-base-uncased`. It is a lighter, faster version of BERT. It was trained on 11,000+ unpublished books in addition to English Wikipedia, about 16GB worth of text data. The model has 66 million parameters and a 30,000 word vocabulary. One of its intended use cases is sentiment analysis, the focus of this project.
+In the second training approach, I used the pre-trained `distilBERT-base-uncased` model. It is a lighter, faster version of `BERT`. The pre-trained model was trained on 11k+ unpublished books in addition to English Wikipedia---about 16GB worth of text data. The model has 66 million parameters and a 30k-word vocabulary. One of its intended use cases is sentiment analysis, the focus of this project.
 
-## Performance Metrics
+## Performance Metric
 
-When training my model, I monitored the four metrics accuracy, precision, recall, and F1-score.Note that the movie-reviews dataset is perfectly balanced with respect to review labels. Also, there is ostensibly no difference between the consequences associated with false postives or false negatives. For these reasons, I think that F1-score is the most important metric for this project as it represents a type of average between precision and recall, neither of which can be considered more important than the other with regards to this particular application.
-
-## Hyperparameters
-
-When working with `distilBERT-base-uncased`, I began my tuning process on a subset of 5,000 movie reviews using the following baseline set of hyperparameters: 
-
-- learning_rate = 2e-5
-- per_device_train_batch_size = 8
-- per_device_eval_batch_size = 8
-
-I changed the values of these parameters and monitored the model's F1-score for significant changes.
-
-Both increasing and decreasing learning_rate by an order of magnitude significantly decreased the model's F1 score. As for the two batch-size hyperparameters, setting them to 4, 8, or 16 had little impact on the model's F1-score. Increasing either batch size to 32 caused the model's F1-score to decrease somewhat. However, decreasing the batch sizes did increase the time it took to train the model. As such, I settled on the hyperparameter values:
-
-- learning_rate = 2e-5
-- per_device_train_batch_size = 16
-- per_device_eval_batch_size = 16
-
-Having settled on the above hyperparameter values, I then obtained my final model by training on 12,500 reviews from the training set over 3 epochs.  
+When training the models of this project, I focused on F1-score. Recall that the movie-reviews train dataset is perfectly balanced with respect to review labels. Also, there is really no difference between the consequences associated with false postives or false negatives in movie-review classification. For these reasons, F1-score is the most important metric for this project as it represents a type of average between precision and recall, neither of which can be considered more important than the other in this particular application. 
 
 ## Results
 
-To generate a sentiment-analysis tool, I tried two approaches. The first approach was to apply a random forest classifier to text data that had been vectorized using the TF-IDF algorithm. On test data, this approach yielded an F1-score of 0.80. The second approach was to tune a previously trained LLM on the movie-review test data. On test data, this approach yielded an F1-score of 0.92, a major improvement over the first appraoch.
-
-To be fair, however, the first approach was implemented on a PC and used a training set consisting of 7,500 samples and a 750 feature-vocabulary. The second approach was implemented on Google colab. The model was trained on 12,500 samples with no explicit restrictions on vocabulary length. As a future goal, I would implement the first approach on Google colab so that the two models could be compared directly, having been trained with the same computing resources. 
+As discussed above, to generate a movie-review classifier, I tried two approaches. The first approach was to apply classifiers from scikit-learn to text data that had been vectorized using the TF-IDF algorithm. The best model from this approach turned out to be logistic regression which yielded a test F1-score of 0.875. The second approach was to fine-tune a pre-trained LLM. On test data, this approach yielded an F1-score of 0.933, a significant improvement over the first appraoch.
 
 ## Important Links
 
@@ -47,4 +25,4 @@ To be fair, however, the first approach was implemented on a PC and used a train
 
 ## Screenshot
 
-![movie-review-classifier at Hugging Face screenshot](./images/hugging-face-screenshot.png)
+![movie-review-classifier at Hugging Face screenshot](./images/screenshot-huggingface.png)
