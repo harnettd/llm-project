@@ -9,8 +9,9 @@ matplotlib
 nltk
 numpy
 pandas
-pytorch
+torch
 scikit-learn
 scipy
 transformers
 ipykernel
+wheel
