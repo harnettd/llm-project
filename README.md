@@ -16,7 +16,39 @@ When training the models of this project, I focused on F1-score. Recall that the
 
 ## Results
 
-As discussed above, to generate a movie-review classifier, I tried two approaches. The first approach was to apply classifiers from scikit-learn to text data that had been vectorized using the TF-IDF algorithm. The best model from this approach turned out to be logistic regression which yielded a test F1-score of 0.875. The second approach was to fine-tune a pre-trained LLM. On test data, this approach yielded an F1-score of 0.933, a significant improvement over the first appraoch.
+As discussed above, to generate a movie-review classifier, I tried two approaches. The first approach was to apply classifiers from scikit-learn to text data that had been vectorized using the TF-IDF algorithm. The best model from this approach turned out to be logistic regression which yielded a test F1-score of 0.875. The second approach was to fine-tune a pre-trained LLM. On test data, this approach yielded an F1-score of 0.933, a significant improvement over the first approach.
+
+## Deploying the Flask app
+
+As noted above, the best-scoring model from the first approach was deployed as a local server using Flask. To run this server, first clone the repo 
+
+```bash
+$ git clone https://github.com/harnettd/llm-project.git
+$ cd llm-project
+```
+
+Second, setup the needed Python environment using either
+
+```bash
+$ python -m venv venv
+$ source venv/bin/activate
+$ pip install -r requirements.txt
+```
+
+or
+
+```bash
+$ conda env create -f environment.yaml
+$ conda activate nlp 
+```
+
+Third, start the server
+
+```bash
+$ python -m app.api
+```
+
+With the server running, the second notebook which sends POST requests to the server can be run.
 
 ## Important Links
 
